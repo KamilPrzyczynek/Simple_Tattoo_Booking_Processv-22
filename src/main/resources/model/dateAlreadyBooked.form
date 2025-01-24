@@ -1,0 +1,22 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "65a2317"
+  },
+  "schemaVersion": 18,
+  "id": "Form_1q6cvnd",
+  "components": [
+    {
+      "text": "# The date is already booked",
+      "type": "text",
+      "layout": {
+        "row": "Row_1hbq8dt",
+        "columns": null
+      },
+      "id": "Field_13eng81"
+    }
+  ],
+  "type": "default"
+}

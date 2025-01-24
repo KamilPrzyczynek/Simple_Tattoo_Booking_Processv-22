@@ -1,0 +1,43 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "addcace"
+  },
+  "schemaVersion": 18,
+  "id": "providing-email-and-phone-19yy7y1",
+  "components": [
+    {
+      "label": "Enter e-mail",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1my769y",
+        "columns": null
+      },
+      "id": "Field_124h669",
+      "key": "textfield_b3d0j"
+    },
+    {
+      "label": "Enter phone number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_19y7t4b",
+        "columns": null
+      },
+      "id": "Field_1jl0van",
+      "key": "textfield_xocw1u"
+    },
+    {
+      "label": "Apply",
+      "action": "submit",
+      "type": "button",
+      "layout": {
+        "row": "Row_01dwdz4",
+        "columns": null
+      },
+      "id": "Field_0zz6y8a"
+    }
+  ],
+  "type": "default"
+}

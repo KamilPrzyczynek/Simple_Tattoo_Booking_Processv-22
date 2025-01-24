@@ -1,0 +1,22 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "65a2317"
+  },
+  "schemaVersion": 18,
+  "id": "Form_154f5eh",
+  "components": [
+    {
+      "text": "# Payment Declined",
+      "type": "text",
+      "layout": {
+        "row": "Row_0gxx1ls",
+        "columns": null
+      },
+      "id": "Field_1b00mnd"
+    }
+  ],
+  "type": "default"
+}

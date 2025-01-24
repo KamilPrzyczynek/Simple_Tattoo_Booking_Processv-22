@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="recruitment-basic" />
+        <module name="University-Recruitment-1.0" />
+        <module name="University-Recruitment-2.0" />
+        <module name="Simple_Tattoo_Booking_Processv2" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Simple_Tattoo_Booking_Processv-2" options="-parameters" />
+      <module name="Simple_Tattoo_Booking_Processv2" options="-parameters" />
+      <module name="University-Recruitment-1.0" options="-parameters" />
+      <module name="University-Recruitment-2.0" options="-parameters" />
+      <module name="recruitment-basic" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,110 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "addcace"
+  },
+  "schemaVersion": 18,
+  "id": "payment-input-0wpr564",
+  "components": [
+    {
+      "text": "### Payment Form",
+      "type": "text",
+      "layout": {
+        "row": "Row_04x0jha",
+        "columns": null
+      },
+      "id": "Field_04jguhp"
+    },
+    {
+      "text": "\n##### Payment Information",
+      "type": "text",
+      "layout": {
+        "row": "Row_19stv98",
+        "columns": null
+      },
+      "id": "Field_19d33pt"
+    },
+    {
+      "label": "Name and Last Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0th2n5c",
+        "columns": null
+      },
+      "id": "Field_09zdsos",
+      "key": "fullName",
+      "validate": {
+        "required": true,
+        "minLength": 3,
+        "maxLength": "60"
+      }
+    },
+    {
+      "label": "Payment card number",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0th2n5c",
+        "columns": null
+      },
+      "id": "Field_13yvjvm",
+      "key": "textfield_ssbl8j"
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Card Validity DAte",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_1bm2e4y",
+        "columns": null
+      },
+      "id": "Field_1s47tcp",
+      "key": "cardVakudutyDate",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Amount to paid",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ihpjxy",
+        "columns": null
+      },
+      "id": "Field_1pl8byr",
+      "key": "paymentAmount",
+      "defaultValue": "200",
+      "readonly": false,
+      "validate": {
+        "required": true,
+        "minLength": 1,
+        "maxLength": 100000
+      }
+    },
+    {
+      "label": "Payment Card Type",
+      "values": [
+        {
+          "label": "Mastercard",
+          "value": "Mastercard"
+        },
+        {
+          "label": "Visa",
+          "value": "Visa"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_0ihpjxy",
+        "columns": null
+      },
+      "id": "Field_1fgqgo1",
+      "key": "cardType",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default"
+}

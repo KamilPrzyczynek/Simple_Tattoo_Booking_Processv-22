@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_SimpleTattooBooking" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="e8c556f" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <bpmn:process id="Simple_Tattoo_Booking_Process" name="Prosty Proces Rezerwacji Tatuażu" isExecutable="true">
+    <bpmn:task id="Activity_1ypd0sk" />
+    <bpmn:endEvent id="EndEvent_ProcessComplete" name="&#10;End of the Process">
+      <bpmn:incoming>Flow_1nclumv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_Booking" name="Start">
+      <bpmn:outgoing>Flow_1wn45c6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_0d824bc" name="Tatto date Availability Check">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="tattodateAvailabilityCheck" retries="4" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="tattodateAvailabilityCheckForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rk6fxj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rv47ov</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0ss6mos" name="Date Availability">
+      <bpmn:incoming>Flow_0rv47ov</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rvt49w</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ko8bgn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0rv47ov" sourceRef="Activity_0d824bc" targetRef="Gateway_0ss6mos" />
+    <bpmn:businessRuleTask id="Activity_1jwkawu" name="Application of Business Rules">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="businessRules" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="businessRulesForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rvt49w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k6w48u</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_0rvt49w" name="Yes" sourceRef="Gateway_0ss6mos" targetRef="Activity_1jwkawu">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=dateAvailability=true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ko8bgn" sourceRef="Gateway_0ss6mos" targetRef="Activity_072j2lx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=dateAvailability=false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1odmypk" name="Tatto Price Calculation">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="priceCalculation" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="priceCalculationForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1k6w48u</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pzzuaq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1k6w48u" sourceRef="Activity_1jwkawu" targetRef="Activity_1odmypk" />
+    <bpmn:sequenceFlow id="Flow_0pzzuaq" sourceRef="Activity_1odmypk" targetRef="Activity_149ebav" />
+    <bpmn:serviceTask id="Activity_1q70nbf" name="Payment Processing">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="paymentProcessing" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="paymentProcessingForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1q2s3po</bpmn:incoming>
+      <bpmn:outgoing>Flow_097ae60</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1q2s3po" sourceRef="Activity_149ebav" targetRef="Activity_1q70nbf" />
+    <bpmn:exclusiveGateway id="Gateway_03rwgkm" name="Payment  Accepted">
+      <bpmn:incoming>Flow_097ae60</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hxts6q</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0vmomyr</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_097ae60" sourceRef="Activity_1q70nbf" targetRef="Gateway_03rwgkm" />
+    <bpmn:sequenceFlow id="Flow_0hxts6q" name="No" sourceRef="Gateway_03rwgkm" targetRef="Activity_0dv5o5u">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentApproved = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1k9g755" sourceRef="Activity_0dv5o5u" targetRef="Activity_149ebav" />
+    <bpmn:serviceTask id="tattooBooking" name="tattoo booking">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="tattooBooking" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="tattooBookingForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0vmomyr</bpmn:incoming>
+      <bpmn:outgoing>Flow_132wi08</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0vmomyr" name="Yes" sourceRef="Gateway_03rwgkm" targetRef="tattooBooking">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=paymentApproved = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1fi57xp" name="Sending confirmation to Customer">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="tattooSending" retries="2" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="tattooSendingForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_132wi08</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nclumv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_132wi08" sourceRef="tattooBooking" targetRef="Activity_1fi57xp" />
+    <bpmn:sequenceFlow id="Flow_1nclumv" sourceRef="Activity_1fi57xp" targetRef="EndEvent_ProcessComplete" />
+    <bpmn:sequenceFlow id="Flow_1wn45c6" sourceRef="StartEvent_Booking" targetRef="Activity_0aa7mpf" />
+    <bpmn:serviceTask id="Activity_0aa7mpf" name="Selection of tatto">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="=tattoDate" target="tattoDate" />
+          <zeebe:input source="=tattoTime" target="tattoTime" />
+          <zeebe:input source="=tattoSelect" target="tattoSelect" />
+          <zeebe:output source="=tattoDate" target="tattoDate" />
+          <zeebe:output source="=tattoTime" target="tattoTime" />
+          <zeebe:output source="=tattoSelect" target="tattoSelect" />
+        </zeebe:ioMapping>
+        <zeebe:taskDefinition type="Selectionoftatto" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="SelectionoftattoForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12tti1y</bpmn:incoming>
+      <bpmn:incoming>Flow_1wn45c6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fvffjc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1th3dpj" name="Providing Email and phone">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="ProvidingEmailandphone" retries="2" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=tattoEmail" target="tattoEmail" />
+          <zeebe:input source="=tattoPhone" target="tattoPhone" />
+          <zeebe:output source="=tattoEmail" target="tattoEmail" />
+          <zeebe:output source="=tattoPhone" target="tattoPhone" />
+        </zeebe:ioMapping>
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="ProvidingEmailAndPhoneForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fvffjc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rk6fxj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1fvffjc" sourceRef="Activity_0aa7mpf" targetRef="Activity_1th3dpj" />
+    <bpmn:sequenceFlow id="Flow_1rk6fxj" sourceRef="Activity_1th3dpj" targetRef="Activity_0d824bc" />
+    <bpmn:serviceTask id="Activity_072j2lx" name="Tatto no date Availabilit">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="TattonodateAvailabilit" retries="1" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="TattonodateAvailabilitForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ko8bgn</bpmn:incoming>
+      <bpmn:outgoing>Flow_12tti1y</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_12tti1y" sourceRef="Activity_072j2lx" targetRef="Activity_0aa7mpf" />
+    <bpmn:serviceTask id="Activity_149ebav" name="Payment Input">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="PaymentInput" retries="5" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="PaymentInputForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pzzuaq</bpmn:incoming>
+      <bpmn:incoming>Flow_1k9g755</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q2s3po</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0dv5o5u" name="Payment Declined">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="PaymentDeclined" retries="1" />
+        <zeebe:properties>
+          <zeebe:property name="formKey" value="PaymentDeclinedForm" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hxts6q</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k9g755</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_SimpleTattooBooking">
+    <bpmndi:BPMNPlane id="BPMNPlane_SimpleTattooBooking" bpmnElement="Simple_Tattoo_Booking_Process">
+      <bpmndi:BPMNShape id="Activity_1ypd0sk_di" bpmnElement="Activity_1ypd0sk">
+        <dc:Bounds x="160" y="2950" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_ProcessComplete" bpmnElement="EndEvent_ProcessComplete">
+        <dc:Bounds x="6072" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="6065" y="158" width="51" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartEvent_Booking" bpmnElement="StartEvent_Booking">
+        <dc:Bounds x="3952" y="270" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3959" y="306" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d824bc_di" bpmnElement="Activity_0d824bc">
+        <dc:Bounds x="4570" y="248" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ss6mos_di" bpmnElement="Gateway_0ss6mos" isMarkerVisible="true">
+        <dc:Bounds x="4735" y="263" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4721" y="239" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jwkawu_di" bpmnElement="Activity_1jwkawu">
+        <dc:Bounds x="4850" y="248" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1odmypk_di" bpmnElement="Activity_1odmypk">
+        <dc:Bounds x="5020" y="248" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q70nbf_di" bpmnElement="Activity_1q70nbf">
+        <dc:Bounds x="5360" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_03rwgkm_di" bpmnElement="Gateway_03rwgkm" isMarkerVisible="true">
+        <dc:Bounds x="5375" y="285" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5320" y="296" width="45" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ks0dgd_di" bpmnElement="tattooBooking">
+        <dc:Bounds x="5493" y="270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fi57xp_di" bpmnElement="Activity_1fi57xp">
+        <dc:Bounds x="5667" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0aa7mpf_di" bpmnElement="Activity_0aa7mpf">
+        <dc:Bounds x="4260" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1th3dpj_di" bpmnElement="Activity_1th3dpj">
+        <dc:Bounds x="4480" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0b8p55r_di" bpmnElement="Activity_072j2lx">
+        <dc:Bounds x="4710" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14vprrh_di" bpmnElement="Activity_149ebav">
+        <dc:Bounds x="5150" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lnu0w0_di" bpmnElement="Activity_0dv5o5u">
+        <dc:Bounds x="5230" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0rv47ov_di" bpmnElement="Flow_0rv47ov">
+        <di:waypoint x="4670" y="288" />
+        <di:waypoint x="4735" y="288" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rvt49w_di" bpmnElement="Flow_0rvt49w">
+        <di:waypoint x="4785" y="288" />
+        <di:waypoint x="4850" y="288" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4809" y="270" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ko8bgn_di" bpmnElement="Flow_1ko8bgn">
+        <di:waypoint x="4760" y="313" />
+        <di:waypoint x="4760" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4768" y="364" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k6w48u_di" bpmnElement="Flow_1k6w48u">
+        <di:waypoint x="4950" y="288" />
+        <di:waypoint x="5020" y="288" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pzzuaq_di" bpmnElement="Flow_0pzzuaq">
+        <di:waypoint x="5120" y="288" />
+        <di:waypoint x="5135" y="288" />
+        <di:waypoint x="5135" y="140" />
+        <di:waypoint x="5150" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q2s3po_di" bpmnElement="Flow_1q2s3po">
+        <di:waypoint x="5250" y="140" />
+        <di:waypoint x="5360" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_097ae60_di" bpmnElement="Flow_097ae60">
+        <di:waypoint x="5410" y="180" />
+        <di:waypoint x="5410" y="233" />
+        <di:waypoint x="5400" y="233" />
+        <di:waypoint x="5400" y="285" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hxts6q_di" bpmnElement="Flow_0hxts6q">
+        <di:waypoint x="5400" y="335" />
+        <di:waypoint x="5400" y="540" />
+        <di:waypoint x="5330" y="540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5408" y="436" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k9g755_di" bpmnElement="Flow_1k9g755">
+        <di:waypoint x="5230" y="540" />
+        <di:waypoint x="5200" y="540" />
+        <di:waypoint x="5200" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vmomyr_di" bpmnElement="Flow_0vmomyr">
+        <di:waypoint x="5425" y="310" />
+        <di:waypoint x="5493" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="5451" y="292" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_132wi08_di" bpmnElement="Flow_132wi08">
+        <di:waypoint x="5593" y="310" />
+        <di:waypoint x="5717" y="310" />
+        <di:waypoint x="5717" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nclumv_di" bpmnElement="Flow_1nclumv">
+        <di:waypoint x="5767" y="210" />
+        <di:waypoint x="6016" y="210" />
+        <di:waypoint x="6016" y="140" />
+        <di:waypoint x="6072" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wn45c6_di" bpmnElement="Flow_1wn45c6">
+        <di:waypoint x="3988" y="288" />
+        <di:waypoint x="4124" y="288" />
+        <di:waypoint x="4124" y="120" />
+        <di:waypoint x="4260" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fvffjc_di" bpmnElement="Flow_1fvffjc">
+        <di:waypoint x="4360" y="120" />
+        <di:waypoint x="4480" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rk6fxj_di" bpmnElement="Flow_1rk6fxj">
+        <di:waypoint x="4530" y="160" />
+        <di:waypoint x="4530" y="204" />
+        <di:waypoint x="4620" y="204" />
+        <di:waypoint x="4620" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12tti1y_di" bpmnElement="Flow_12tti1y">
+        <di:waypoint x="4710" y="460" />
+        <di:waypoint x="4310" y="460" />
+        <di:waypoint x="4310" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

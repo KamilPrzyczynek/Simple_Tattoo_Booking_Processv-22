@@ -1,0 +1,90 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "addcace"
+  },
+  "schemaVersion": 18,
+  "id": "selection-of-tatto-0sodl8m",
+  "components": [
+    {
+      "text": "### Select a Tatto",
+      "type": "text",
+      "layout": {
+        "row": "Row_182ddhu",
+        "columns": null
+      },
+      "id": "Field_07npu66"
+    },
+    {
+      "text": "Tatto Details",
+      "type": "text",
+      "layout": {
+        "row": "Row_1hbc0c8",
+        "columns": null
+      },
+      "id": "Field_0b3fouh"
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Tatto Date",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0rhdkwb",
+        "columns": 3
+      },
+      "id": "Field_005votj",
+      "key": "tattoDate",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "subtype": "time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0rhdkwb",
+        "columns": 3
+      },
+      "id": "Field_1xcc8vj",
+      "key": "tattoTime",
+      "timeLabel": "Tatto Time",
+      "timeSerializingFormat": "utc_offset",
+      "timeInterval": 60,
+      "use24h": true,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Tatto Select",
+      "values": [
+        {
+          "label": "Tatto 1",
+          "value": "Tatto 1"
+        },
+        {
+          "label": "Tatto 2",
+          "value": "Tatto 2"
+        },
+        {
+          "label": "Tatto 3",
+          "value": "Tatto 3"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_0rhdkwb",
+        "columns": null
+      },
+      "id": "Field_1x2wzvg",
+      "key": "tattoSelect",
+      "validate": {
+        "required": true
+      },
+      "properties": { }
+    }
+  ],
+  "type": "default"
+}
