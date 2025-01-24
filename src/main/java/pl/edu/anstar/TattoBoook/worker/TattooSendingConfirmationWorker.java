@@ -17,14 +17,11 @@ public class TattooSendingConfirmationWorker {
 
     @ZeebeWorker(type = "tattooSending")
     public void handleTattooSending(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'tattooSending' dla procesu: " + processKey);
 
-        // Wyświetlenie podziękowania za rezerwację
         System.out.println("Dziękujemy za dokonanie rezerwacji. Do zobaczenia!");
 
-        // Zakończenie zadania i przesłanie do procesu
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .send()

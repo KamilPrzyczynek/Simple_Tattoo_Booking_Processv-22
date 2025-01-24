@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CheckWhereProblem {
     @JobWorker(type = "CheckWhereProblem")
     public void handleCheckWhereProblemTask(final JobClient client, final ActivatedJob job) {
-        // Pobierz dane z instancji procesu
+
         String processKey = String.valueOf(job.getProcessInstanceKey());
 
         System.out.println("Obsługuję zadanie 'CheckWhereProblem' dla procesu: " + processKey);
@@ -19,7 +19,7 @@ public class CheckWhereProblem {
 
         job.getVariablesAsMap().forEach((key, value) -> System.out.println("Zmienna procesu: " + key + " = " + value));
 
-        // Zakończ zadanie i opcjonalnie ustaw zmienne procesu
+
         client.newCompleteCommand(job.getKey())
                 .variables("{\"problemChecked\": true}")
                 .send()

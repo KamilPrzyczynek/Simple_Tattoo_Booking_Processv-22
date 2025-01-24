@@ -20,16 +20,15 @@ public class BusinessRulesWorker {
 
     @ZeebeWorker(type = "businessRules")
     public void handleBusinessRules(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
+
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'Business Rules' dla procesu: " + processKey);
 
-        // Przykładowe reguły biznesowe
-        String size = "medium"; // Przykład: określony rozmiar
-        String complexity = "detailed"; // Przykład: poziom szczegółowości
-        double basePrice = 300.0; // Przykład: podstawowa cena za tatuaż
 
-        // Obliczenia dodatkowe w oparciu o reguły
+        String size = "medium";
+        String complexity = "detailed";
+        double basePrice = 300.0;
+
         if (size.equals("small")) {
             basePrice -= 50.0;
         } else if (size.equals("large")) {
@@ -45,13 +44,11 @@ public class BusinessRulesWorker {
         System.out.println("Zasady biznesowe: Rozmiar = " + size + ", Szczegółowość = " + complexity);
         System.out.println("Cena bazowa po zastosowaniu zasad: " + basePrice);
 
-        // Przygotuj zmienne do przesłania do procesu
         Map<String, Object> variables = new HashMap<>();
         variables.put("size", size);
         variables.put("complexity", complexity);
         variables.put("basePrice", basePrice);
 
-        // Prześlij zmienne do procesu
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

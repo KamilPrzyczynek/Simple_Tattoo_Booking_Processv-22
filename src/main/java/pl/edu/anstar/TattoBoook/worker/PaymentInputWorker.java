@@ -23,15 +23,14 @@ public class PaymentInputWorker {
     public void handlePaymentInput(final ActivatedJob job) {
         Scanner scanner = new Scanner(System.in);
 
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'PaymentInput' dla procesu: " + processKey);
 
-        // Pobierz dane z procesu
+
         Map<String, Object> variables = job.getVariablesAsMap();
         double totalPrice = (double) variables.getOrDefault("totalPrice", 0.0);
 
-        // Pobierz dane od użytkownika
+
         System.out.print("Podaj swoje imię: ");
         String firstName = scanner.nextLine();
 
@@ -54,7 +53,7 @@ public class PaymentInputWorker {
             return;
         }
 
-        // Określ typ karty na podstawie numeru
+
         String cardType = "Unknown";
         if (cardNumber.startsWith("4")) {
             cardType = "Visa";
@@ -65,14 +64,12 @@ public class PaymentInputWorker {
         }
 
         System.out.println("Typ karty: " + cardType);
-
-        // Wyświetl podsumowanie płatności
         System.out.println("Imię i nazwisko: " + firstName + " " + lastName);
         System.out.println("Numer karty: " + cardNumber);
         System.out.println("Data ważności: " + cardExpiry);
         System.out.println("Całkowita kwota do zapłaty: " + totalPrice + " zł");
 
-        // Przygotuj zmienne do przesłania do procesu
+
         variables.put("firstName", firstName);
         variables.put("lastName", lastName);
         variables.put("cardNumber", cardNumber);
@@ -80,7 +77,7 @@ public class PaymentInputWorker {
         variables.put("cardType", cardType);
         variables.put("totalPrice", totalPrice);
 
-        // Przesyłanie zmiennych do procesu
+
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

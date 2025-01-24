@@ -20,20 +20,17 @@ public class TattoNoDateAvailabilityWorker {
 
     @ZeebeWorker(type = "TattonodateAvailabilit")
     public void handleNoDateAvailability(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'TattonodateAvailabilit' dla procesu: " + processKey);
 
-        // Ustaw informację, że nie ma dostępności
+
         boolean dateAvailability = false;
 
         System.out.println("Dostępność daty ustawiona na: " + dateAvailability + ". Nie ma wolnych miejsc.");
 
-        // Przygotuj zmienne do przesłania do procesu
         Map<String, Object> variables = new HashMap<>();
         variables.put("dateAvailability", dateAvailability);
 
-        // Przesyłanie zmiennych do procesu
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

@@ -20,30 +20,28 @@ public class TattooBookingWorker {
 
     @ZeebeWorker(type = "tattooBooking")
     public void handleTattooBooking(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'tattooBooking' dla procesu: " + processKey);
 
-        // Pobierz zmienne z procesu
+
         Map<String, Object> variables = job.getVariablesAsMap();
         String customerName = variables.getOrDefault("firstName", "") + " " + variables.getOrDefault("lastName", "");
         String date = (String) variables.getOrDefault("tattoDate", "Nie ustawiono daty");
         String time = (String) variables.getOrDefault("tattoTime", "Nie ustawiono godziny");
         String tattooDetails = "Tatuaż: " + variables.getOrDefault("tattoSelect", "Nie wybrano tatuażu");
 
-        // Logowanie rezerwacji
+
         System.out.println("Rezerwacja wizyty dla klienta: " + customerName);
         System.out.println("Data: " + date);
         System.out.println("Godzina: " + time);
         System.out.println(tattooDetails);
 
-        // Symulacja rezerwacji
-        boolean bookingSuccess = true; // Symulujemy, że rezerwacja zakończyła się sukcesem
 
-        // Przygotuj zmienne do przesłania do procesu
+        boolean bookingSuccess = true;
+
+
         variables.put("bookingSuccess", bookingSuccess);
 
-        // Przesyłanie zmiennych do procesu
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

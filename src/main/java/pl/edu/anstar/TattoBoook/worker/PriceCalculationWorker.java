@@ -20,20 +20,19 @@ public class PriceCalculationWorker {
 
     @ZeebeWorker(type = "priceCalculation")
     public void handlePriceCalculation(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'priceCalculation' dla procesu: " + processKey);
 
-        // Pobierz zmienne z procesu
+
         Map<String, Object> variables = job.getVariablesAsMap();
         double basePrice = (double) variables.getOrDefault("basePrice", 300.0);
         String size = (String) variables.getOrDefault("size", "medium");
         String complexity = (String) variables.getOrDefault("complexity", "detailed");
 
-        // Wyliczenia dodatkowych kosztów
-        double costOfMaterials = 50.0; // Stały koszt materiałów
-        double hourlyRate = 100.0; // Koszt za godzinę pracy
-        double estimatedTime = 2.0; // Domyślny czas w godzinach
+
+        double costOfMaterials = 50.0;
+        double hourlyRate = 100.0;
+        double estimatedTime = 2.0;
 
         if (size.equals("large")) {
             estimatedTime += 2.0;
@@ -49,13 +48,12 @@ public class PriceCalculationWorker {
 
         double totalPrice = basePrice + costOfMaterials + (hourlyRate * estimatedTime);
 
-        // Logowanie obliczeń
+
         System.out.println("Rozmiar: " + size);
         System.out.println("Szczegółowość: " + complexity);
         System.out.println("Czas szacowany: " + estimatedTime + " godziny");
         System.out.println("Całkowita cena: " + totalPrice + " zł");
 
-        // Przekazanie ceny do procesu
         variables.put("totalPrice", totalPrice);
 
         try {

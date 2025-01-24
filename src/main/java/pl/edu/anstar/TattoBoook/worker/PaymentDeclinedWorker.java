@@ -20,18 +20,18 @@ public class PaymentDeclinedWorker {
 
     @ZeebeWorker(type = "PaymentDeclined")
     public void handlePaymentDeclined(final ActivatedJob job) {
-        // Pobierz klucz procesu dla celów debugowania
+
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'PaymentDeclined' dla procesu: " + processKey);
 
-        // Informacja o odrzuceniu płatności
+
         System.out.println("Płatność została odrzucona. Spróbuj ponownie.");
 
-        // Przygotuj zmienne do przesłania do procesu
+
         Map<String, Object> variables = new HashMap<>();
         variables.put("paymentApproved", false);
 
-        // Przesyłanie zmiennych do procesu
+
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

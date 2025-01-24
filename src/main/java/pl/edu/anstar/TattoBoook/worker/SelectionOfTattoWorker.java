@@ -23,21 +23,18 @@ public class SelectionOfTattoWorker {
     public void handleSelectionOfTatto(final ActivatedJob job) {
         Scanner scanner = new Scanner(System.in);
 
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'Selectionoftatto' dla procesu: " + processKey);
 
-        // Pobierz wybór tatuażu od użytkownika
         System.out.print("Wybierz numer tatuażu (1-10): ");
         int tattoSelect = scanner.nextInt();
 
-        // Walidacja wyboru tatuażu
+
         if (tattoSelect < 1 || tattoSelect > 10) {
             System.err.println("Niepoprawny numer tatuażu. Wprowadź wartość od 1 do 10.");
             return;
         }
 
-        // Pobierz godzinę i datę
         System.out.print("Podaj godzinę (HH:mm): ");
         String tattoTime = scanner.next();
 
@@ -54,7 +51,6 @@ public class SelectionOfTattoWorker {
             return;
         }
 
-        // Przygotuj zmienne do przesłania do procesu
         Map<String, Object> variables = new HashMap<>();
         variables.put("tattoSelect", tattoSelect);
         variables.put("tattoTime", tattoTime);
@@ -64,7 +60,7 @@ public class SelectionOfTattoWorker {
         System.out.println("Godzina: " + tattoTime);
         System.out.println("Data: " + tattoDate);
 
-        // Przesyłanie zmiennych do procesu
+
         try {
             zeebeClient.newCompleteCommand(job.getKey())
                     .variables(variables)

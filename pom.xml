@@ -12,7 +12,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.6.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<properties>
@@ -29,7 +29,6 @@
 			<version>42.2.4</version>
 		</dependency>
 
-		<!-- Spring Boot Starter Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -40,7 +39,7 @@
 		</dependency>
 
 
-		<!-- Camunda Zeebe Dependencies -->
+
 		<dependency>
 			<groupId>io.camunda</groupId>
 			<artifactId>spring-zeebe-starter</artifactId>
@@ -63,8 +62,6 @@
 		</dependency>
 
 
-
-		<!-- Database and Mail Dependencies -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -81,7 +78,6 @@
 			<version>1.6.7</version>
 		</dependency>
 
-		<!-- Utilities -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -106,14 +102,14 @@
 
 	<build>
 		<plugins>
-			<!-- Spring Boot Maven Plugin -->
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot.version}</version>
 			</plugin>
 
-			<!-- Exec Maven Plugin -->
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>

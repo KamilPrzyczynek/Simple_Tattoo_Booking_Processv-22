@@ -23,11 +23,9 @@ public class ProvidingEmailAndPhoneWorker {
     public void handleProvidingEmailAndPhone(final ActivatedJob job) {
         Scanner scanner = new Scanner(System.in);
 
-        // Pobierz klucz procesu dla celów debugowania
         String processKey = String.valueOf(job.getProcessInstanceKey());
         System.out.println("Obsługuję zadanie 'ProvidingEmailandphone' dla procesu: " + processKey);
 
-        // Pobierz e-mail użytkownika
         System.out.print("Podaj swój e-mail: ");
         String tattoEmail = scanner.next();
 
@@ -36,7 +34,6 @@ public class ProvidingEmailAndPhoneWorker {
             return;
         }
 
-        // Pobierz numer telefonu użytkownika
         System.out.print("Podaj swój numer telefonu: ");
         String tattoPhone = scanner.next();
 
@@ -45,7 +42,6 @@ public class ProvidingEmailAndPhoneWorker {
             return;
         }
 
-        // Przygotuj zmienne do przesłania do procesu
         Map<String, Object> variables = new HashMap<>();
         variables.put("email", tattoEmail);
         variables.put("phone", tattoPhone);
